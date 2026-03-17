@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seif ElSabaa - Computer Science Student & IT Professional</title>
+    <style>
+        /* ===== Global Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --purple: #512E7E;
+            --dark-blue: #0D3557;
+            --gold: #C5862B;
+            --light-bg: #f8f9fa;
+            --text-dark: #2c3e50;
+            --text-light: #ffffff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--light-bg);
+        }
+
+        /* ===== Navigation Bar ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--purple), var(--dark-blue));
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.5rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-light);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark-blue), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            margin-top: 60px;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            color: var(--text-light);
+        }
+
+        .hero-text {
+            flex: 1;
+            animation: fadeInLeft 1s ease;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .hero-text h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-image {
+            flex: 0 0 300px;
+            animation: fadeInRight 1s ease;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--text-light);
+        }
+
+        .btn-primary:hover {
+            background: #d69635;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(197,134,43,0.4);
+        }
+
+        .btn-secondary {
+            background: var(--gold);
+            color: var(--text-light);
+        }
+
+        .btn-secondary:hover {
+            background: #d69635;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(197,134,43,0.4);
+        }
+
+        /* ===== Sections ===== */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--purple);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--gold);
+        }
+        /* الأزرار */
+        .btn {
+            display: inline-block;
+            background: #2980b9;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+        }
+
+        .btn.secondary {
+            background: var(--secondary-color);
+        }
+
+        .btn.secondary:hover {
+            background: #27ae60;
+        }
+           /* المشاريع */
+        .projects {
+            padding: 5rem 5%;
+        }
+
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .tech-used {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-used span {
+            background: #eee;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* ===== About Section ===== */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .contact-info {
+            background: var(--dark-blue);
+            color: var(--text-light);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-info h3 {
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .contact-item strong {
+            min-width: 100px;
+            color: var(--gold);
+        }
+
+        /* ===== Experience Section ===== */
+        .experience-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--gold);
+        }
+
+        .experience-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -2.6rem;
+            top: 0;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--gold);
+            border: 3px solid var(--light-bg);
+        }
+
+        .experience-item h3 {
+            color: var(--purple);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-item .company {
+            color: var(--dark-blue);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-item .date {
+            color: var(--gold);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .experience-item ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .experience-item ul li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .experience-item ul li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* ===== Skills Section ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .skill-category h3 {
+            color: var(--purple);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .skill-category ul {
+            list-style: none;
+        }
+
+        .skill-category ul li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            color: var(--text-dark);
+        }
+
+        .skill-category ul li:last-child {
+            border-bottom: none;
+        }
+
+        /* ===== Education Section ===== */
+        .education-card {
+            background: linear-gradient(135deg, var(--purple), var(--dark-blue));
+            color: var(--text-light);
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .education-card h3 {
+            color: var(--gold);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .education-card p {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ===== Certifications & Achievements ===== */
+        .cert-achieve-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .cert-achieve-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .cert-achieve-card h3 {
+            color: var(--dark-blue);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .cert-achieve-card ul {
+            list-style: none;
+        }
+
+        .cert-achieve-card ul li {
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            background: var(--light-bg);
+            border-left: 4px solid var(--gold);
+            border-radius: 5px;
+        }
+
+        /* ===== Contact Section ===== */
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background: var(--dark-blue);
+            color: var(--text-light);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* ===== Animations ===== */
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ===== Responsive Design ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                flex-direction: column;
+                background: var(--dark-blue);
+                width: 100%;
+                padding: 2rem;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero-content {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .hero-text h2 {
+                font-size: 1.2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">Seif ElSabaa</a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Seif ElSabaa</h1>
+                <h2>Data Analyst</h2>
+                <p>Skilled in data management, and programming. Passionate about technology and problem-solving with hands-on experience in data entry, network systems, and software development.</p>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                    <a href="#" class="btn btn-secondary" id="downloadCV">Download CV</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="C:\Users\BackStore\Downloads\Gemini_Generated_Image_6hztaz6hztaz6hzt.png" alt="Seif ElSabaa">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Junior Software Developer with practical experience in data handling, IT operations, and programming. Strong analytical mindset with proven ability to adapt, learn quickly, and deliver accurate results. Passionate about applying technology to solve problems and improve efficiency in any professional setting.</p>
+                <p>Certified in ICDL and HTML with strong problem-solving, organizational, and communication skills. Seeking to contribute technical expertise and accuracy in a professional environment.</p>
+            </div>
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <div class="contact-item">
+                    <strong>Location:</strong>
+                    <span>Alexandria</span>
+                </div>
+                <div class="contact-item">
+                    <strong>Phone:</strong>
+                    <span>+20 111 681 3354</span>
+                </div>
+                <div class="contact-item">
+                    <strong>Email:</strong>
+                    <span>seifelsabaa@icloud.com</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <h2 class="section-title">Work Experience</h2>
+        <div class="experience-timeline">
+            <div class="experience-item">
+                <h3>Data Analysis Trainee </h3>
+                <div class="company">Digital Egypt Pioneers Initiative (DEPI)</div>
+                <div class="date">Nov 2025 – Present</div>
+                <ul>
+                    <li>Participating in an intensive data analysis training program focused on SQL, Python, Power BI, and advanced Excel. </li>
+                    <li>Learning to clean, process, and visualize data to derive actionable insights.</li>
+                    <li>Applying statistical methods and data storytelling techniques to real-world case studies.</li>
+                    <li>Collaborating with peers on data projects to strengthen teamwork and analytical thinking.</li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <h3>Data Entry Specialist</h3>
+                <div class="company">Veeva Systems</div>
+                <div class="date">Jun 2025 – Nov 2025</div>
+                <ul>
+                    <li>Entered, validated, and maintained structured datasets with high accuracy in enterprise systems.</li>
+                    <li>Performed data quality checks, audits, and error resolution to ensure data integrity.</li>
+                    <li>Adhered to compliance, security, and confidentiality standards while meeting tight deadlines.</li>
+                    <li>Collaborated with team members to manage and maintain company databases.</li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <h3>Data Entry Specialist</h3>
+                <div class="company">Dynamix Company</div>
+                <div class="date">Mar 2025 – May 2025</div>
+                <ul>
+                    <li>Entered, verified, and updated large datasets with a high level of accuracy.</li>
+                    <li>Cleaned and organized data in Excel to ensure consistency and eliminate duplicates.</li>
+                    <li>Improved workflow efficiency by developing structured spreadsheet systems.</li>
+                    <li>Gained practical knowledge of data entry workflows and database management.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <h2 class="section-title">Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>Programming & Technical</h3>
+                <ul>
+                    <li>Java</li>
+                    <li>Python</li>
+                    <li>SQL</li>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                    <li>Microsoft Office (Word, Excel, PowerPoint)</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Data Management</h3>
+                <ul>
+                    <li>Data entry</li>
+                    <li>Database management</li>
+                    <li>Excel data cleaning</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>IT Support</h3>
+                <ul>
+                    <li>Hardware installation</li>
+                    <li>Network setup</li>
+                    <li>Troubleshooting</li>
+                    <li>CCTV systems</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Professional Skills</h3>
+                <ul>
+                    <li>Problem-solving</li>
+                    <li>Communication</li>
+                    <li>Organization</li>
+                    <li>Time management</li>
+                    <li>Multitasking</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Data Analysis</h3>
+                <ul>
+                    <li>SQL</li>
+                    <li>Python</li>
+                    <li>Power BI</li>
+                    <li>Excel dashboards</li>
+                    <li>data visualization</li>
+                    <li>data cleaning</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education">
+        <h2 class="section-title">Education</h2>
+        <div class="education-card">
+            <h3>B.A. in Computer Science</h3>
+            <p>Faculty of Science, Alexandria University</p>
+            <p>2023 – 2027 (In Progress)</p>
+        </div>
+    </section>
+
+    <!-- projects Section -->
+    <section class="projects">
+        <h2 class="section-title">My Previous Work</h2>
+        <div class="projects-container">
+            <div class="project-card">
+                <img src="D:\DEPI\Pizza\Dashboard.jpeg" alt="Project 1">
+                <div class="project-info">
+                    <h3>Sales Dashboard</h3>
+                    <p>Complete e-commerce site with admin dashboard</p>
+                    <div class="tech-used">
+                        <span>Excel</span>
+                        <span>Pivot Table</span>
+                        <span>Power Query</span>
+                    </div>
+                    <a href="#" class="btn">View Project</a>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <img src="D:\DEPI\fnp dataset\Dashboard.png" alt="Project 2">
+                <div class="project-info">
+                    <h3>Weather App</h3>
+                    <p>Weather application using API</p>
+                    <div class="tech-used">
+                        <span>Excel</span>
+                        <span>Pivot Table</span>
+                        <span>Power Query</span>
+                    </div>
+                    <a href="#" class="btn">View Project</a>
+                </div>
+            </div>
+            
+            <!-- Add more projects here -->
+        </div>
+    </section>
+
+    <!-- Certifications & Achievements -->
+    <section>
+        <h2 class="section-title">Certifications & Achievements</h2>
+        <div class="cert-achieve-grid">
+            <div class="cert-achieve-card">
+                <h3>Certifications</h3>
+                <ul>
+                    <li>ICDL (Arab Computers)</li>
+                    <li>Certified HTML (M3aarf)</li>
+                </ul>
+            </div>
+            <div class="cert-achieve-card">
+                <h3>Achievements</h3>
+                <ul>
+                    <li>Processed and organized 5,000+ records during academic projects and internship training.</li>
+                    <li>Supported installation and setup of 10+ network and CCTV systems for clients.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-content">
+            <p>I'm always open to discussing new opportunities, projects, or collaborations. Feel free to reach out!</p>
+            <div class="contact-links">
+                <a href="mailto:seifelsabaa@icloud.com" class="btn btn-primary">Email Me</a>
+                <a href="tel:+201116813354" class="btn btn-secondary">Call Me</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Seif ElSabaa. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for section animations
+        const sections = document.querySelectorAll('section');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Download CV button functionality
+        document.getElementById('downloadCV').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('CV download functionality would be implemented here. Please add your CV file and link it to this button.');
+            // In a real implementation, you would link to your actual CV file:
+            // window.open('path/to/your/cv.pdf', '_blank');
+        });
+
+        // Smooth scroll for navigation links (backup for browsers that don't support CSS scroll-behavior)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
